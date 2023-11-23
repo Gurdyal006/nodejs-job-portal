@@ -7,24 +7,34 @@ export const registerController = async (req, res, next) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
-    //validate
-    if (!firstName)
-      // next("name is required");
-      return errorHandler(res, 400, "name is required");
-
-    if (!email) {
-      // next("email is required");
-      return errorHandler(res, 400, "email is required");
-    }
-    if (!password) {
-      // next("password is required");
-      return errorHandler(res, 400, "password is required");
+    /// Logic register build
+    if (
+      [firstName, lastName, email, password].some(
+        (field) => field?.trim() === ""
+      )
+    ) {
+      return errorHandler(res, 400, "All fields are required");
     }
 
-    if (password.length < 4) {
-      // next("password is required");
-      return errorHandler(res, 400, "password too short");
-    }
+    ////// Old techniques validation//
+    // //validate
+    // if (!firstName)
+    //   // next("name is required");
+    //   return errorHandler(res, 400, "name is required");
+
+    // if (!email) {
+    //   // next("email is required");
+    //   return errorHandler(res, 400, "email is required");
+    // }
+    // if (!password) {
+    //   // next("password is required");
+    //   return errorHandler(res, 400, "password is required");
+    // }
+
+    // if (password.length < 4) {
+    //   // next("password is required");
+    //   return errorHandler(res, 400, "password too short");
+    // }
 
     const existUser = await userModel.findOne({ email });
     if (existUser) {
