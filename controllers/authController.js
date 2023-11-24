@@ -2,6 +2,7 @@ import errorHandler from "../middlewares/errorMiddleware.js";
 import userModel from "../models/userModel.js";
 // import createJwtTokenBYFeat from "../utils/features.js";
 import bcrypt from "bcryptjs";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 export const registerController = async (req, res, next) => {
   try {
@@ -42,9 +43,18 @@ export const registerController = async (req, res, next) => {
       return errorHandler(res, 400, "email already exist");
     }
 
+    // upload image cloudinary
+    const avatarLocalPath = req.files?.avatar[0]?.path;
+    if (!avatarLocalPath)
+      return errorHandler(res, 400, "Avatar file is required");
+
+    // upload on cloudinary
+    const avatar = await uploadOnCloudinary(avatarLocalPath);
+
     const user = await userModel.create({
       firstName,
       lastName,
+      avatar: avatar.url,
       email,
       password,
     });
@@ -61,6 +71,7 @@ export const registerController = async (req, res, next) => {
         user: {
           firstName: user.firstName,
           lastName: user.lastName,
+          avatar: user.avatar,
           email: user.email,
           location: user.location,
         },

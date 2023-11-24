@@ -4,6 +4,8 @@ import {
   registerController,
 } from "../controllers/authController.js";
 
+import { upload } from "../middlewares/multerMiddleware.js";
+
 // router object
 const router = express.Router();
 
@@ -81,7 +83,12 @@ const router = express.Router();
  */
 
 // Register routes || POST
-router.post("/register", registerController);
+router.post(
+  "/register",
+  // upload.single("avatar"), // single image
+  upload.fields([{ name: "avatar", maxCount: 1 }]), // multi objects
+  registerController
+);
 
 /**
  * @swagger

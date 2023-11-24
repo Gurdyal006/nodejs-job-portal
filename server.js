@@ -47,7 +47,9 @@ app.use(helmet()); // headers protection
 app.use(xss()); // cross site scripting attack protection
 app.use(mongoSanitize()); // database security inject query like
 app.use(express.json()); // Parse JSON requests
-// app.use(express.urlencoded({ extended: true })); // Parse URL-encoded requests
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+
+app.use(express.static("public"));
 
 app.use(cors());
 app.use(morgan("dev"));

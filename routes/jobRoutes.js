@@ -1,5 +1,5 @@
 import express from "express";
-import userAuth from "../middlewares/authController.js";
+import userAuth from "../middlewares/authMiddleware.js";
 import {
   createJobController,
   deleteJobController,
