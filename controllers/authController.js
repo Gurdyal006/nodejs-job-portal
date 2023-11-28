@@ -3,18 +3,8 @@ import userModel from "../models/userModel.js";
 // import createJwtTokenBYFeat from "../utils/features.js";
 import bcrypt from "bcryptjs";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
-// import nodemailer from "nodemailer";
 
 import { sendEmailSMTP } from "../utils/mail.js";
-
-// Set up Nodemailer transporter
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "goldiey412@gmail.com", // Replace with your Gmail address
-//     pass: "pzct fbxv bhlz rsgt", // Replace with your Gmail password or an application-specific password
-//   },
-// });
 
 export const registerController = async (req, res, next) => {
   try {
@@ -84,8 +74,6 @@ export const registerController = async (req, res, next) => {
       text: `Email User data has been created successfully.`,
       html: `<p>Hello ${firstName},</p><p>Your data has been created successfully.</p>`,
     };
-
-    // await transporter.sendMail(mailOptions);
 
     await sendEmailSMTP(mailOptions);
 
