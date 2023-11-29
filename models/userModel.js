@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import Jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 // schema
 const userSchema = new mongoose.Schema(
@@ -33,6 +34,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "Pathankot",
     },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
   },
   { timestamps: true }
 );
@@ -57,6 +60,22 @@ userSchema.methods.createJWT = function () {
 userSchema.methods.comparePassword = async function (userPassword) {
   const isMatch = await bcrypt.compare(userPassword, this.password);
   return isMatch;
+};
+
+// reset token
+userSchema.methods.getResetPasswordToken = function () {
+  // Generating Token
+  const resetToken = crypto.randomBytes(20).toString("hex");
+
+  // Hashing and adding resetPasswordToken to userSchema
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.resetPasswordExpire = Date.now() + 2 * 60 * 1000; // 2min valid
+
+  return resetToken;
 };
 
 export default mongoose.model("User", userSchema);

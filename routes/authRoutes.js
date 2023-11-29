@@ -1,7 +1,11 @@
 import express from "express";
 import {
   loginController,
+  userSendOtpController,
   registerController,
+  loginWithOtp,
+  sendLinkPassword,
+  resetPassword,
 } from "../controllers/authController.js";
 
 import { upload } from "../middlewares/multerMiddleware.js";
@@ -137,6 +141,102 @@ router.post(
 
 // Login routes || POST
 router.post("/login", loginController);
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    OtpCreate:
+ *      type: object
+ *      required:
+ *        - email
+ *      properties:
+ *        email:
+ *          type: string
+ *          description: User email
+ *      example:
+ *         email: joh@gmail.com
+ *
+ */
+
+/**
+ * @swagger
+ * /api/v1/auth/send-otp:
+ *  post:
+ *    summary: Send Otp page
+ *    tags: [Auth]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/OtpCreate'
+ *    responses:
+ *      200:
+ *        description: Otp create successfull
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/OtpCreate'
+ *      500:
+ *        description: something went wrong
+ */
+
+// create otp routes with email|| POST
+router.post("/send-otp", userSendOtpController);
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    otp:
+ *      type: object
+ *      required:
+ *        - email
+ *        - otp
+ *      properties:
+ *        email:
+ *          type: string
+ *          description: User email
+ *        otp:
+ *          type: string
+ *      example:
+ *         email: joh@gmail.com
+ *         password: 123445
+ *
+ */
+
+/**
+ * @swagger
+ * /api/v1/auth/login-otp:
+ *  post:
+ *    summary: Login Otp page
+ *    tags: [Auth]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/otp'
+ *    responses:
+ *      200:
+ *        description: Login with Otp successfull
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/otp'
+ *      500:
+ *        description: something went wrong
+ */
+
+// login with otp
+router.post("/login-otp", loginWithOtp);
+
+// send password link with email
+router.post("/forgot-password", sendLinkPassword);
+
+// reset password link with email
+router.put("/reset-password/:token", resetPassword);
 
 // export
 export default router;
