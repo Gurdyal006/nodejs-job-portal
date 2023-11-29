@@ -143,6 +143,13 @@ router.post(
 router.post("/login", loginController);
 
 /**
+ *  @swagger
+ *  tags:
+ *    name: 2 Step Authentication
+ *    description: login with otp authentication apis
+ */
+
+/**
  * @swagger
  * components:
  *  schemas:
@@ -164,7 +171,7 @@ router.post("/login", loginController);
  * /api/v1/auth/send-otp:
  *  post:
  *    summary: Send Otp page
- *    tags: [Auth]
+ *    tags: [2 Step Authentication]
  *    requestBody:
  *      required: true
  *      content:
@@ -211,7 +218,7 @@ router.post("/send-otp", userSendOtpController);
  * /api/v1/auth/login-otp:
  *  post:
  *    summary: Login Otp page
- *    tags: [Auth]
+ *    tags: [2 Step Authentication]
  *    requestBody:
  *      required: true
  *      content:
