@@ -10,7 +10,7 @@ To use this project, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-repo.git
+   git clone https://github.com/Gurdyal006/nodejs-job-portal.git
    ```
 
 # Swagger documentation
