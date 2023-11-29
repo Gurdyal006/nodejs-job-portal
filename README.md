@@ -15,4 +15,4 @@ To use this project, follow these steps:
 
 # Swagger documentation
 
-NOde.js job portal api Documentation - learn about Node.js and API.
+- [Documentation](http://localhost:8080/api-docs/) - Node.js job portal api Documentation
